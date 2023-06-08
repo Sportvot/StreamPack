@@ -49,6 +49,10 @@ class AudioOnlySrtLiveStreamer(
     ISrtLiveStreamer {
     private val srtProducer = endpoint as SrtProducer
 
+    override fun getBitrate(): Long {
+        return srtProducer.stats.byteSent
+    }
+
     /**
      * Get/set SRT stream ID.
      * **See:** [SRT Socket Options](https://github.com/Haivision/srt/blob/master/docs/API/API-socket-options.md#srto_streamid)
