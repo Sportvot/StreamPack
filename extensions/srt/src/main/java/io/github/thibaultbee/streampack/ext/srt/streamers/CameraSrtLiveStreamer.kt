@@ -16,6 +16,7 @@
 package io.github.thibaultbee.streampack.ext.srt.streamers
 
 import android.content.Context
+import android.util.Log
 import io.github.thibaultbee.streampack.data.BitrateRegulatorConfig
 import io.github.thibaultbee.streampack.ext.srt.internal.endpoints.SrtProducer
 import io.github.thibaultbee.streampack.ext.srt.regulator.srt.SrtBitrateRegulator
@@ -80,6 +81,10 @@ class CameraSrtLiveStreamer(
     }
 
     private val srtProducer = endpoint as SrtProducer
+
+    override fun getBitrate(): Long {
+        return srtProducer.stats.byteSent
+    }
 
     /**
      * Get/set SRT stream ID.

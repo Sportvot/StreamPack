@@ -33,6 +33,8 @@ interface ISrtLiveStreamer : ILiveStreamer {
      */
     var latency: Int
 
+    fun getBitrate(): Long
+
     /**
      * Connect to a remote server.
      *
