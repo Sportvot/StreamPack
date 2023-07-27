@@ -97,6 +97,9 @@
     <string name="server_video_min_bitrate_key">server_video_min_bitrate_key</string>
     <string name="server_video_min_bitrate">Video minimum bitrate (kb/s)</string>
     <string name="video_enable_key">video_enable_key</string>
+    <string name="srt_latency_ms_key">srt_latency_key</string>
+    <string name="srt_latency_ms_title">SRT Latency milliseconds</string>
+    <string name="default_srt_latency_ms">2000</string>
     <string name="video_enable">Enable video</string>
     <string name="video_settings_key">video_settings_key</string>
     <string name="warning">Warning</string>
