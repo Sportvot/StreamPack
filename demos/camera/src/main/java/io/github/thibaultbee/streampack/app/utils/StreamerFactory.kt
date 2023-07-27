@@ -88,7 +88,8 @@ class StreamerFactory(
                         enableAudio = enableAudio,
                         tsServiceInfo = tsServiceInfo,
                         bitrateRegulatorFactory = bitrateRegulatorFactory,
-                        bitrateRegulatorConfig = bitrateRegulatorConfig
+                        bitrateRegulatorConfig = bitrateRegulatorConfig,
+                        srtLatencyMs = configuration.video.srtLatencyMs
                     )
                     EndpointType.RTMP -> CameraRtmpLiveStreamer(
                         context,
