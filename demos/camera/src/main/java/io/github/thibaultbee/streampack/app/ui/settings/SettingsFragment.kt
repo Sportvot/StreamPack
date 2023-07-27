@@ -40,6 +40,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private lateinit var streamerHelper: CameraStreamerConfigurationHelper
     private val profileLevelDisplay by lazy { ProfileLevelDisplay(requireContext()) }
 
+    private val srtLatencyMsPreference: EditTextPreference by lazy {
+        this.findPreference(getString(R.string.srt_latency_ms_key))!!
+    }
+
     private val videoEnablePreference: SwitchPreference by lazy {
         this.findPreference(getString(R.string.video_enable_key))!!
     }
@@ -416,6 +420,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         }
 
         serverPortPreference.setOnBindEditTextListener { editText ->
+            editText.inputType = InputType.TYPE_CLASS_NUMBER
+            editText.filters = arrayOf(InputFilter.LengthFilter(5))
+        }
+
+        srtLatencyMsPreference.setOnBindEditTextListener { editText ->
             editText.inputType = InputType.TYPE_CLASS_NUMBER
             editText.filters = arrayOf(InputFilter.LengthFilter(5))
         }
