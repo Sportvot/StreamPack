@@ -50,7 +50,8 @@ class CameraSrtLiveStreamer(
     bitrateRegulatorFactory: IBitrateRegulatorFactory? = null,
     bitrateRegulatorConfig: BitrateRegulatorConfig? = null,
     initialOnErrorListener: OnErrorListener? = null,
-    initialOnConnectionListener: OnConnectionListener? = null
+    initialOnConnectionListener: OnConnectionListener? = null,
+    srtLatencyMs: Int = 2000
 ) : BaseCameraLiveStreamer(
     context = context,
     enableAudio = enableAudio,
@@ -58,8 +59,9 @@ class CameraSrtLiveStreamer(
     endpoint = SrtProducer(),
     initialOnErrorListener = initialOnErrorListener,
     initialOnConnectionListener = initialOnConnectionListener
-),
-    ISrtLiveStreamer {
+), ISrtLiveStreamer {
+
+
 
     /**
      * Bitrate regulator. Calls regularly by [scheduler]. Don't call it otherwise or you might break regulation.
@@ -136,6 +138,10 @@ class CameraSrtLiveStreamer(
         set(value) {
             srtProducer.latency = value
         }
+
+    init {
+        this.latency = srtLatencyMs;
+    }
 
     /**
      * Connect to an SRT server with correct Live streaming parameters.
