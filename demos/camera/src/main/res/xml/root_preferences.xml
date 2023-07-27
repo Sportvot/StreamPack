@@ -170,6 +170,12 @@
                 app:title="@string/server_passphrase"
                 app:useSimpleSummaryProvider="true" />
 
+            <EditTextPreference
+                app:defaultValue="@string/default_srt_latency_ms"
+                app:key="@string/srt_latency_ms_key"
+                app:title="@string/srt_latency_ms_title"
+                app:useSimpleSummaryProvider="true" />
+
             <SwitchPreference
                 android:defaultValue="false"
                 app:key="@string/server_enable_bitrate_regulation_key"
