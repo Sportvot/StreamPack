@@ -16,11 +16,11 @@
 package io.github.thibaultbee.streampack.ext.srt.internal.endpoints
 
 import android.net.Uri
+import android.util.Log
 import io.github.thibaultbee.srtdroid.Srt
 import io.github.thibaultbee.srtdroid.enums.Boundary
 import io.github.thibaultbee.srtdroid.enums.ErrorType
 import io.github.thibaultbee.srtdroid.enums.SockOpt
-import io.github.thibaultbee.srtdroid.enums.Transtype
 import io.github.thibaultbee.srtdroid.listeners.SocketListener
 import io.github.thibaultbee.srtdroid.models.MsgCtrl
 import io.github.thibaultbee.srtdroid.models.Socket
@@ -46,8 +46,6 @@ class SrtProducer(
     private var isOnError = false
 
     companion object {
-        private const val PAYLOAD_SIZE = 1316
-
         private const val SRT_SCHEME = "srt"
         private const val SRT_PREFIX = "$SRT_SCHEME://"
     }
@@ -123,10 +121,15 @@ class SrtProducer(
                         streamId: String
                     ) = 0 // Only for server - not needed here
                 }
-                socket.setSockFlag(SockOpt.PAYLOADSIZE, PAYLOAD_SIZE)
-                socket.setSockFlag(SockOpt.TRANSTYPE, Transtype.LIVE)
+                setCustomLiveSocketOptions()
                 isOnError = false
+                Log.i("LATENCY", "Inside connect from class $latency")
+                Log.i(
+                    "LATENCY",
+                    "Inside connect from socket property ${socket.getSockFlag(SockOpt.LATENCY)}"
+                )
                 socket.connect(ip.removePrefix(SRT_PREFIX), port)
+                Log.i("LATENCY", "after socket connect ${socket.getSockFlag(SockOpt.LATENCY)}")
                 onConnectionListener?.onSuccess()
             } catch (e: Exception) {
                 socket = Socket()
@@ -134,6 +137,32 @@ class SrtProducer(
                 throw e
             }
         }
+    }
+
+    /**
+     *  Only difference from setting Transtype.LIVE is latency settings
+     *  are taken from preferences, Whereas Transtype.LIVE sets some
+     *  reasonable default SockOpts and latency to default 120 ms
+     *
+     *  Issues:
+     *  socket.setSockFlag(SockOpt.LINGER, 0)
+     *  is omitted due to issue with underlying lib ?? Throws err
+     *  if added
+     *
+     *  Alternative default:
+     *  socket.setSockFlag(SockOpt.TRANSTYPE, Transtype.LIVE)
+     *
+     *  Reference:
+     *  https://github.com/Haivision/srt/blob/master/docs/API/API.md#transmission-method-live
+     */
+    private fun setCustomLiveSocketOptions() {
+        socket.setSockFlag(SockOpt.TSBPDMODE, true)
+        socket.setSockFlag(SockOpt.TLPKTDROP, true)
+        socket.setSockFlag(SockOpt.MESSAGEAPI, true)
+        socket.setSockFlag(SockOpt.NAKREPORT, true)
+        socket.setSockFlag(SockOpt.RETRANSMITALGO, 1)
+        socket.setSockFlag(SockOpt.PAYLOADSIZE, 1316)
+        socket.setSockFlag(SockOpt.CONGESTION, "live")
     }
 
     override fun disconnect() {
