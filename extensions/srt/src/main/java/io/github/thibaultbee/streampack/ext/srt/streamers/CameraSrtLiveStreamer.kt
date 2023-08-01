@@ -62,7 +62,6 @@ class CameraSrtLiveStreamer(
 ), ISrtLiveStreamer {
 
 
-
     /**
      * Bitrate regulator. Calls regularly by [scheduler]. Don't call it otherwise or you might break regulation.
      */
@@ -140,7 +139,8 @@ class CameraSrtLiveStreamer(
         }
 
     init {
-        this.latency = srtLatencyMs;
+        Log.i("LATENCY", "setting on streamer $srtLatencyMs")
+        this.latency = srtLatencyMs
     }
 
     /**
@@ -152,7 +152,9 @@ class CameraSrtLiveStreamer(
      * @throws Exception if connection has failed or configuration has failed
      */
     override suspend fun connect(ip: String, port: Int) {
+        Log.i("LATENCY", "Before connect ${srtProducer.latency}")
         srtProducer.connect(ip, port)
+        Log.i("LATENCY", "Using SRT Latency ms ${srtProducer.latency}")
     }
 
     /**
