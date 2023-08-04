@@ -79,38 +79,46 @@ class StreamerFactory(
                         enableAudio = enableAudio,
                         tsServiceInfo = tsServiceInfo
                     )
+
                     EndpointType.FLV_FILE -> CameraFlvFileStreamer(
                         context,
                         enableAudio = enableAudio
                     )
+
                     EndpointType.SRT -> CameraSrtLiveStreamer(
                         context,
                         enableAudio = enableAudio,
                         tsServiceInfo = tsServiceInfo,
                         bitrateRegulatorFactory = bitrateRegulatorFactory,
                         bitrateRegulatorConfig = bitrateRegulatorConfig,
-                        srtLatencyMs = configuration.video.srtLatencyMs
+                        srtLatencyMs = configuration.video.srtLatencyMs,
+                        srtRetransmitAlgo = configuration.video.srtRetransmitAlgo
                     )
+
                     EndpointType.RTMP -> CameraRtmpLiveStreamer(
                         context,
                         enableAudio = enableAudio
                     )
                 }
             }
+
             configuration.audio.enable -> {
                 when (configuration.endpoint.endpointType) {
                     EndpointType.TS_FILE -> AudioOnlyTsFileStreamer(
                         context,
                         tsServiceInfo = tsServiceInfo
                     )
+
                     EndpointType.FLV_FILE -> AudioOnlyFlvFileStreamer(context)
                     EndpointType.SRT -> AudioOnlySrtLiveStreamer(
                         context,
                         tsServiceInfo = tsServiceInfo
                     )
+
                     EndpointType.RTMP -> AudioOnlyRtmpLiveStreamer(context)
                 }
             }
+
             else -> {
                 throw IllegalStateException("StreamerFactory: You must enable at least one of audio or video")
             }

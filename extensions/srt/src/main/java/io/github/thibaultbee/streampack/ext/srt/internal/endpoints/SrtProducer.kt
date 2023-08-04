@@ -73,6 +73,13 @@ class SrtProducer(
         set(value) = socket.setSockFlag(SockOpt.LATENCY, value)
 
     /**
+     * Get/set retransmit algo to 0/1.
+     */
+    var retransmitAlgo: Int
+        get() = socket.getSockFlag(SockOpt.RETRANSMITALGO) as Int
+        set(value) = socket.setSockFlag(SockOpt.RETRANSMITALGO, value)
+
+    /**
      * Get SRT stats
      */
     val stats: Stats
@@ -123,13 +130,9 @@ class SrtProducer(
                 }
                 setCustomLiveSocketOptions()
                 isOnError = false
-                Log.i("LATENCY", "Inside connect from class $latency")
-                Log.i(
-                    "LATENCY",
-                    "Inside connect from socket property ${socket.getSockFlag(SockOpt.LATENCY)}"
-                )
                 socket.connect(ip.removePrefix(SRT_PREFIX), port)
-                Log.i("LATENCY", "after socket connect ${socket.getSockFlag(SockOpt.LATENCY)}")
+                Log.i("LATENCY", "onSock ${socket.getSockFlag(SockOpt.LATENCY)}")
+                Log.i("RETRANSMIT_ALGO", "onSock ${socket.getSockFlag(SockOpt.RETRANSMITALGO)}")
                 onConnectionListener?.onSuccess()
             } catch (e: Exception) {
                 socket = Socket()
@@ -160,7 +163,6 @@ class SrtProducer(
         socket.setSockFlag(SockOpt.TLPKTDROP, true)
         socket.setSockFlag(SockOpt.MESSAGEAPI, true)
         socket.setSockFlag(SockOpt.NAKREPORT, true)
-        socket.setSockFlag(SockOpt.RETRANSMITALGO, 1)
         socket.setSockFlag(SockOpt.PAYLOADSIZE, 1316)
         socket.setSockFlag(SockOpt.CONGESTION, "live")
     }
