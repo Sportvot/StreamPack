@@ -51,7 +51,8 @@ class CameraSrtLiveStreamer(
     bitrateRegulatorConfig: BitrateRegulatorConfig? = null,
     initialOnErrorListener: OnErrorListener? = null,
     initialOnConnectionListener: OnConnectionListener? = null,
-    srtLatencyMs: Int = 2000
+    srtLatencyMs: Int = 2000,
+    srtRetransmitAlgo: Int = 0
 ) : BaseCameraLiveStreamer(
     context = context,
     enableAudio = enableAudio,
@@ -141,6 +142,21 @@ class CameraSrtLiveStreamer(
     init {
         Log.i("LATENCY", "setting on streamer $srtLatencyMs")
         this.latency = srtLatencyMs
+    }
+
+    /**
+     * Get / Set retransmit algo.
+     * https://github.com/Haivision/srt/blob/master/docs/API/API-socket-options.md#SRTO_RETRANSMITALGO
+     */
+    private var srtRetransmitAlgo: Int
+        get() = srtProducer.retransmitAlgo
+        set(value) {
+            srtProducer.retransmitAlgo = value
+        }
+
+    init {
+        Log.i("RETRANSMIT_ALGO", "setting on streamer $srtRetransmitAlgo")
+        this.srtRetransmitAlgo = srtRetransmitAlgo
     }
 
     /**
