@@ -42,7 +42,16 @@ class Configuration(context: Context) {
         private val profileLevelDisplay: ProfileLevelDisplay
     ) {
         var srtLatencyMs: Int = 2000
-            get() = sharedPref.getString(resources.getString(R.string.srt_latency_ms_key), field.toString())!!.toInt()
+            get() = sharedPref.getString(
+                resources.getString(R.string.srt_latency_ms_key),
+                field.toString()
+            )!!.toInt()
+
+        var srtRetransmitAlgo: Int = 0
+            get() = sharedPref.getString(
+                resources.getString(R.string.srt_retransmit_algo_key),
+                field.toString()
+            )!!.toInt()
 
         var enable: Boolean = true
             get() = sharedPref.getBoolean(resources.getString(R.string.video_enable_key), field)
