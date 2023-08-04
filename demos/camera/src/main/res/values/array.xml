@@ -24,4 +24,14 @@
         <item>192000</item>
     </string-array>
 
+    <string-array name="SrtRetransmitAlgoEntries">
+        <item>Aggressive retransmission</item>
+        <item>Efficient retransmission</item>
+    </string-array>
+
+    <string-array name="SrtRetransmitAlgoEntryValues">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+
 </resources>
