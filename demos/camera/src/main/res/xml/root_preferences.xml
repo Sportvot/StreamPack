@@ -176,6 +176,14 @@
                 app:title="@string/srt_latency_ms_title"
                 app:useSimpleSummaryProvider="true" />
 
+            <ListPreference
+                app:defaultValue="@string/srt_retransmit_algo_default"
+                app:entries="@array/SrtRetransmitAlgoEntries"
+                app:entryValues="@array/SrtRetransmitAlgoEntryValues"
+                app:key="@string/srt_retransmit_algo_key"
+                app:title="@string/srt_retransmit_algo_title"
+                app:useSimpleSummaryProvider="true" />
+
             <SwitchPreference
                 android:defaultValue="false"
                 app:key="@string/server_enable_bitrate_regulation_key"
