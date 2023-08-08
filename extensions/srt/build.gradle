@@ -6,6 +6,15 @@ ext {
     artifactDescription = 'SRT extension for StreamPack.'
 }
 
+android {
+    namespace 'io.github.thibaultbee.streampack.ext.srt'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
 dependencies {
     implementation project(':core')
     implementation 'io.github.thibaultbee:srtdroid:1.5.1'

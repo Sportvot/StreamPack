@@ -6,7 +6,7 @@ buildscript {
         streampackCode = 2_005_002
         streampackVersion = '2.5.2'
 
-        minSdk = 21
+        minSdk = 29
         compileSdk = 31
         targetSdk = 31
         appTargetSdk = 31
@@ -22,7 +22,7 @@ buildscript {
         maven { url 'https://jitpack.io' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.0.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
 
