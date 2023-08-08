@@ -17,11 +17,17 @@ package io.github.thibaultbee.streampack.app.ui.settings
 
 import android.media.AudioFormat
 import android.media.MediaCodecInfo
+import android.media.MediaCodecList
 import android.media.MediaFormat
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
-import androidx.preference.*
+import androidx.preference.EditTextPreference
+import androidx.preference.ListPreference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SeekBarPreference
+import androidx.preference.SwitchPreference
 import io.github.thibaultbee.streampack.app.R
 import io.github.thibaultbee.streampack.app.models.EndpointFactory
 import io.github.thibaultbee.streampack.app.models.EndpointType
@@ -171,6 +177,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
             )
 
         val supportedVideoEncoder = streamerHelper.video.supportedEncoders
+
+        val codecs = MediaCodecList(MediaCodecList.REGULAR_CODECS)
+
+
         videoEncoderListPreference.setDefaultValue(MediaFormat.MIMETYPE_VIDEO_AVC)
         videoEncoderListPreference.entryValues = supportedVideoEncoder.toTypedArray()
         videoEncoderListPreference.entries =
@@ -385,7 +395,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         if (audioProfileListPreference.entry == null) {
             audioProfileListPreference.value =
                 if (profiles.contains(MediaCodecInfo.CodecProfileLevel.AACObjectLC)) {
-                        MediaCodecInfo.CodecProfileLevel.AACObjectLC.toString()
+                    MediaCodecInfo.CodecProfileLevel.AACObjectLC.toString()
                 } else if (profiles.isNotEmpty()) {
                     profiles.first().toString()
                 } else {
@@ -480,9 +490,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 endpoint.hasFLVCapabilities -> {
                     FileExtension.FLV.extension
                 }
+
                 endpoint.hasTSCapabilities -> {
                     FileExtension.TS.extension
                 }
+
                 else -> {
                     throw IOException("Unknown file type")
                 }
