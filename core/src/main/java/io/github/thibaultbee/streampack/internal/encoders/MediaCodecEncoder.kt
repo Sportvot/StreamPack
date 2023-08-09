@@ -18,7 +18,6 @@ package io.github.thibaultbee.streampack.internal.encoders
 import android.media.MediaCodec
 import android.media.MediaFormat
 import android.os.Build
-import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import io.github.thibaultbee.streampack.data.Config
@@ -184,7 +183,10 @@ abstract class MediaCodecEncoder<T : Config>(
     private fun createCodec(config: Config, withProfileLevel: Boolean): MediaCodec {
         val format = createMediaFormat(config, withProfileLevel)
 
+        // TODO : Pass encoder name based on software / hardware.
+        // TODO : reuse existing format based config.
         val encoderName = MediaCodecHelper.findEncoder(format)
+
         Logger.i(TAG, "Selected encoder $encoderName")
         val codec = MediaCodec.createByCodecName(encoderName)
 
