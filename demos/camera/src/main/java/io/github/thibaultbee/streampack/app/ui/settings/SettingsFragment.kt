@@ -198,11 +198,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val caps = hwVideoEncoders[0].getCapabilitiesForType(hwVideoEncoders[0].supportedTypes[0])
         val caps1 = hwVideoEncoders[1].getCapabilitiesForType(hwVideoEncoders[1].supportedTypes[0])
         val caps2 = hwVideoEncoders[2].getCapabilitiesForType(hwVideoEncoders[2].supportedTypes[0])
+        val caps3 = hwVideoEncoders[3].getCapabilitiesForType(hwVideoEncoders[3].supportedTypes[0])
+        val caps4 = hwVideoEncoders[4].getCapabilitiesForType(hwVideoEncoders[4].supportedTypes[0])
+        val caps5 = hwVideoEncoders[5].getCapabilitiesForType(hwVideoEncoders[5].supportedTypes[0])
 
-        val heights = caps.videoCapabilities.supportedHeights
-        val widths = caps.videoCapabilities.supportedWidths
-        val bitrates = caps.videoCapabilities.bitrateRange
-        val fps = caps.videoCapabilities.supportedFrameRates
+        val heights = caps4.videoCapabilities.supportedHeights
+        val widths = caps4.videoCapabilities.supportedWidths
+        val bitrates = caps4.videoCapabilities.bitrateRange
+        val fps = caps4.videoCapabilities.supportedFrameRates
 
         videoEncoderListPreference.setDefaultValue(MediaFormat.MIMETYPE_VIDEO_AVC)
         videoEncoderListPreference.entryValues = supportedVideoEncoder.toTypedArray()
