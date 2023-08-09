@@ -179,7 +179,30 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val supportedVideoEncoder = streamerHelper.video.supportedEncoders
 
         val codecs = MediaCodecList(MediaCodecList.REGULAR_CODECS)
+        val encoders = codecs.codecInfos.filter { codecInfo -> codecInfo.isEncoder }
+        val audioEncoders =
+            encoders.filter { encoder -> encoder.supportedTypes.any { it.startsWith("audio/") } }
+        val videoEncoders =
+            encoders.filter { encoder -> encoder.supportedTypes.any { it.startsWith("video/") } }
 
+        val hwAudioEncoders = audioEncoders.filter { it.isHardwareAccelerated }
+        val swAudioEncoders = audioEncoders.filter { it.isSoftwareOnly }
+
+        val hwVideoEncoders = videoEncoders.filter { it.isHardwareAccelerated }
+        val swVideoEncoders = videoEncoders.filter { it.isSoftwareOnly }
+
+        val types = arrayListOf<String>()
+        hwVideoEncoders.forEach { enc -> types.addAll(enc.supportedTypes) }
+        swVideoEncoders.forEach { enc -> types.addAll(enc.supportedTypes) }
+
+        val caps = hwVideoEncoders[0].getCapabilitiesForType(hwVideoEncoders[0].supportedTypes[0])
+        val caps1 = hwVideoEncoders[1].getCapabilitiesForType(hwVideoEncoders[1].supportedTypes[0])
+        val caps2 = hwVideoEncoders[2].getCapabilitiesForType(hwVideoEncoders[2].supportedTypes[0])
+
+        val heights = caps.videoCapabilities.supportedHeights
+        val widths = caps.videoCapabilities.supportedWidths
+        val bitrates = caps.videoCapabilities.bitrateRange
+        val fps = caps.videoCapabilities.supportedFrameRates
 
         videoEncoderListPreference.setDefaultValue(MediaFormat.MIMETYPE_VIDEO_AVC)
         videoEncoderListPreference.entryValues = supportedVideoEncoder.toTypedArray()
